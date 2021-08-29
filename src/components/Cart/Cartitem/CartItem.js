@@ -57,5 +57,5 @@ const mapDispatchToProps = (dispatch) => {
     removeFromCart: (id) => dispatch(removeFromCart(id)),
   };
 };
-
+//!Nếu bạn không muốn đăng ký để lưu trữ các bản cập nhật, hãy chuyển null hoặc undefined vào vị trí của mapStateToProps.
 export default connect(null, mapDispatchToProps)(CartItem);
