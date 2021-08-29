@@ -1,8 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Product from "./Product/Product";
 import styles from "./Products.module.css";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import axios from "axios";
+import { setProducts } from "../../redux/Shoping/shopingAction";
 const Products = ({ products }) => {
+  const dispatch = useDispatch();
+  const fetchData = async () => {
+    try {
+      const response = await axios.get("https://fakestoreapi.com/products");
+      dispatch(setProducts(response.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div className={styles.products}>
       {products.map((product) => (
@@ -11,7 +25,6 @@ const Products = ({ products }) => {
     </div>
   );
 };
-
 const mapStateToProps = (state) => {
   return {
     products: state.shop.products,
