@@ -12,7 +12,8 @@ import Products from "./components/Products/Products";
 import Cart from "./components/Cart/Cart";
 import Navbar from "./components/Navbar/Navbar";
 import SingleItem from "./components/SingleItem/SingleItem";
-function App() {
+import { connect } from "react-redux";
+function App({ current }) {
   return (
     <Router>
       <div className="app">
@@ -20,12 +21,21 @@ function App() {
         <Switch>
           <Route exact path="/" component={Products} />
           <Route exact path="/cart" component={Cart} />
-
-          <Route exact path="/product/:id" component={SingleItem} />
+          {!current ? (
+            <Redirect to="/" />
+          ) : (
+            <Route exact path="/product/:id" component={SingleItem} />
+          )}
         </Switch>
       </div>
     </Router>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    current: state.shop.currentItem,
+  };
+};
+
+export default connect(mapStateToProps)(App);
