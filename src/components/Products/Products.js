@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 import Product from "./Product/Product";
 import styles from "./Products.module.css";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { setProducts } from "../../redux/Shoping/shopingAction";
-const Products = ({ products }) => {
+const Products = () => {
   const dispatch = useDispatch();
+  const { products } = useSelector((state) => state.shop);
   const fetchData = async () => {
     try {
       const response = await axios.get("https://fakestoreapi.com/products");
@@ -25,10 +26,10 @@ const Products = ({ products }) => {
     </div>
   );
 };
-const mapStateToProps = (state) => {
-  return {
-    products: state.shop.products,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     products: state.shop.products,
+//   };
+// };
 
-export default connect(mapStateToProps)(Products);
+export default Products;

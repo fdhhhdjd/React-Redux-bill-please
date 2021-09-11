@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-const Navbar = ({ cart }) => {
+import { useSelector } from "react-redux";
+const Navbar = () => {
   const [cartCount, setCartCount] = useState(0);
-
+  const { cart } = useSelector((state) => state.shop);
   useEffect(() => {
     let count = 0;
     cart.forEach((item) => {
@@ -34,10 +34,4 @@ const Navbar = ({ cart }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cart: state.shop.cart,
-  };
-};
-
-export default connect(mapStateToProps)(Navbar);
+export default Navbar;

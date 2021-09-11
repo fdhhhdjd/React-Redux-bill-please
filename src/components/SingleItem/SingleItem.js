@@ -1,10 +1,17 @@
 import React from "react";
 import styles from "./Single.module.css";
 
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { addToCart } from "../../redux/Shoping/shopingAction";
+import { useDispatch } from "react-redux";
 
-const SingleItem = ({ current, addToCart }) => {
+const SingleItem = () => {
+  const dispatch = useDispatch();
+  const { currentItem } = useSelector((state) => state.shop);
+  const current = currentItem;
+  const addCart = () => {
+    dispatch(addToCart(current.id));
+  };
   return (
     <div className={styles.singleItem}>
       <img
@@ -17,10 +24,7 @@ const SingleItem = ({ current, addToCart }) => {
         <p className={styles.details__description}>{current.description}</p>
         <p className={styles.details__price}>$ {current.price}</p>
 
-        <button
-          onClick={() => addToCart(current.id)}
-          className={styles.details__addBtn}
-        >
+        <button onClick={addCart} className={styles.details__addBtn}>
           Add To Cart
         </button>
       </div>
@@ -28,16 +32,4 @@ const SingleItem = ({ current, addToCart }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    current: state.shop.currentItem,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addToCart: (id) => dispatch(addToCart(id)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleItem);
+export default SingleItem;

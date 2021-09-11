@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import styles from "./CartItem.module.css";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import {
   adjustItemQty,
   removeFromCart,
 } from "../../../redux/Shoping/shopingAction";
-const CartItem = ({ item, adjustQty, removeFromCart }) => {
+const CartItem = ({ item }) => {
   const [input, setInput] = useState(item.qty);
-
+  const dispatch = useDispatch();
   const onChangeHandler = (e) => {
     setInput(e.target.value);
-    adjustQty(item.id, e.target.value);
+    dispatch(adjustItemQty(item.id, e.target.value));
   };
-
+  console.log(adjustItemQty);
+  const removeItem = () => {
+    dispatch(removeFromCart(item.id));
+  };
   return (
     <div className={styles.cartItem}>
       <img
@@ -37,10 +40,7 @@ const CartItem = ({ item, adjustQty, removeFromCart }) => {
             onChange={onChangeHandler}
           />
         </div>
-        <button
-          onClick={() => removeFromCart(item.id)}
-          className={styles.actions__deleteItemBtn}
-        >
+        <button onClick={removeItem} className={styles.actions__deleteItemBtn}>
           <img
             src="https://image.flaticon.com/icons/svg/709/709519.svg"
             alt=""
@@ -51,11 +51,5 @@ const CartItem = ({ item, adjustQty, removeFromCart }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    adjustQty: (id, value) => dispatch(adjustItemQty(id, value)),
-    removeFromCart: (id) => dispatch(removeFromCart(id)),
-  };
-};
 //!Nếu bạn không muốn đăng ký để lưu trữ các bản cập nhật, hãy chuyển null hoặc undefined vào vị trí của mapStateToProps.
-export default connect(null, mapDispatchToProps)(CartItem);
+export default CartItem;

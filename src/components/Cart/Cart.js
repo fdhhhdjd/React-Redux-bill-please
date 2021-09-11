@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Cart.module.css";
 
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 
 import CartItem from "./Cartitem/CartItem";
 
-const Cart = ({ cart }) => {
+const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-
+  const { cart } = useSelector((state) => state.shop);
   useEffect(() => {
     let items = 0;
     let price = 0;
@@ -43,10 +43,4 @@ const Cart = ({ cart }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    cart: state.shop.cart,
-  };
-};
-
-export default connect(mapStateToProps)(Cart);
+export default Cart;
